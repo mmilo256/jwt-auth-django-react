@@ -1,9 +1,8 @@
-function App() {
+import AuthTest from './components/AuthTest'
 
+function App() {
   return (
-    <div>
-      App
-    </div>
+    <AuthTest />
   )
 }
 
