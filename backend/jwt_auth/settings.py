@@ -141,6 +141,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # Configuración de djangorestframework_simplejwt
 SIMPLE_JWT = {
+    "TOKEN_OBTAIN_SERIALIZER": "users.serializers.TokenSerializer",
     # Tiempo de vida del token de acceso
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     

@@ -13,6 +13,10 @@ class User(AbstractUser):
     # Especifica que 'username' es un campo obligatorio
     REQUIRED_FIELDS = ['username']
 
+
+    """ def profile(self):
+        profile = Profile.objects.get(user=self) """
+
     # Método para representar el objeto como una cadena
     def __str__(self):
         return self.username
