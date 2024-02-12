@@ -1,20 +1,25 @@
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';  // Importa el hook useAuth desde el contexto de autenticación
 
 // Componente funcional AuthTest que utiliza el contexto de autenticación
 const AuthTest = () => {
+
+    const navigate = useNavigate();
+
     // Obtiene los valores del contexto de autenticación utilizando el hook useAuth
     const { user, authTokens, registerUser, loginUser, logoutUser } = useAuth();
 
     // Define un estilo CSS para los botones
-    const styles = "bg-slate-300 hover:bg-slate-400 py-2 px-4";
+    const styles = "bg-slate-300 hover:bg-slate-400 text-black py-2 px-4";
 
     // Función para manejar el inicio de sesión del usuario
     const handleLogin = () => {
         const data = {
-            email: "c@c.cl",
+            email: "b@b.cl",
             password: "abab1212"
         };
-        loginUser(data.email, data.password);
+        loginUser(data.email, data.password, () => { navigate("/dashboard") })
+
     };
 
     // Función para manejar el registro de un nuevo usuario
@@ -25,12 +30,12 @@ const AuthTest = () => {
             password: "abab1212",
             password2: "abab1212"
         };
-        registerUser(data.email, data.username, data.password, data.password2);
+        registerUser(data.email, data.username, data.password, data.password2, () => { navigate("/login") });
     };
 
     // Función para manejar el cierre de sesión del usuario
     const handleLogout = () => {
-        logoutUser();
+        logoutUser(() => { navigate("/dashboard") });
     };
 
     // Renderiza el componente con los botones para iniciar sesión, registrarse o cerrar sesión, y mostrar información de usuario y tokens

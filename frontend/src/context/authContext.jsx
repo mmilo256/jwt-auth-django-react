@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     }, [authTokens, loading]);
 
     // Función para iniciar sesión de usuario
-    const loginUser = async (email, password) => {
+    const loginUser = async (email, password, redirect) => {
         // Realiza una solicitud HTTP POST para obtener los tokens de autenticación
         const response = await fetch('http://localhost:8000/api/token/', {
             method: "POST",
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
             body: JSON.stringify({
                 email,
                 password
-            })
+            }),
         });
 
         // Obtiene los datos de la respuesta HTTP
@@ -53,14 +53,16 @@ export const AuthProvider = ({ children }) => {
             setAuthTokens(data);
             setUser(jwtDecode(data.access));
             localStorage.setItem("authTokens", JSON.stringify(data));
+            redirect();
         } else {
             // Si la solicitud falla, muestra un mensaje de error
             alert("No se pudo iniciar sesión:", response.status);
         }
+
     }
 
     // Función para registrar un nuevo usuario
-    const registerUser = async (email, username, password, password2) => {
+    const registerUser = async (email, username, password, password2, redirect) => {
         // Realiza una solicitud HTTP POST para registrar un nuevo usuario
         const response = await fetch('http://localhost:8000/api/register/', {
             method: "POST",
@@ -74,6 +76,7 @@ export const AuthProvider = ({ children }) => {
         });
         if (response.status === 201) {
             console.log("Usuario creado");
+            redirect();
         } else {
             // Si la solicitud falla, muestra un mensaje de error
             alert("No se pudo crear el usuario:", response.status);
@@ -81,10 +84,11 @@ export const AuthProvider = ({ children }) => {
     }
 
     // Función para cerrar sesión de usuario
-    const logoutUser = () => {
+    const logoutUser = (redirect) => {
         setAuthTokens(null);
         setUser(null);
         localStorage.removeItem("authTokens");
+        redirect();
     }
 
     // Define los valores que se proporcionarán en el contexto
